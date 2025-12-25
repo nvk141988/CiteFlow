@@ -5,12 +5,7 @@ import time
 from loguru import logger
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-
-def job_handler(file_path):
-    """
-    This function simulates processing the job on the Async Loop.
-    """
-    logger.info(f"New job at {file_path}")
+from src.simulator import job_handler
 
 class SentryEventHandler(FileSystemEventHandler):
     """
