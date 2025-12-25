@@ -1,18 +1,10 @@
 import asyncio
-import logging
 import sys
 import os
 import time
+from loguru import logger
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
-logger = logging.getLogger(__name__)
 
 def job_handler(file_path):
     """
