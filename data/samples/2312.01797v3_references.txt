@@ -1,0 +1,16 @@
+P. Wang, Q. Zhang, and Z. Chen, "A grey probability measure set based mobile robot position estimation algorithm," *International Journal of Control, Automation and Systems*, vol. 13, pp. 978–985, 2015.
+Q. Zhang, P. Wang, and Z. Chen, "An improved particle filter for mobile robot localization based on particle swarm optimization," *Expert Systems with Applications*, vol. 135, pp. 181–193, 2019.
+P. Wang, L. Mihaylova, P. Bonnifait, P. Xu, and J. Jiang, "Featurerefined box particle filtering for autonomous vehicle localisation with openstreetmap," *Engineering Applications of Artificial Intelligence*, vol. 105, p. 104445, 2021.
+D. Gonzalez, J. P ´ erez, V. Milan ´ es, and F. Nashashibi, "A review of mo- ´ tion planning techniques for automated vehicles," *IEEE Transactions on intelligent transportation systems*, vol. 17, no. 4, pp. 1135–1145, 2015.
+C. Carr and P. Wang, "Fast-spanning ant colony optimisation (fasaco) for mobile robot coverage path planning," *arXiv preprint arXiv:2205.15691*, 2022.
+C. Zhou, B. Huang, and P. Franti, "A review of motion planning al- ¨ gorithms for intelligent robots," *Journal of Intelligent Manufacturing*, vol. 33, no. 2, pp. 387–424, 2022.
+R. Yonetani, T. Taniai, M. Barekatain, M. Nishimura, and A. Kanezaki, "Path planning using neural a\* search," in *International Conference on Machine Learning*. PMLR, 2021, pp. 12 029–12 039.
+OpenAI, "ChatGPT: Engaging openai's conversational ai," [https://](https://openai.com/blog/chatgpt) [openai.com/blog/chatgpt,](https://openai.com/blog/chatgpt) 2023, [Accessed on November 20, 2023].
+P. Anderson, Q. Wu, D. Teney, J. Bruce, M. Johnson, N. Sunderhauf, ¨ I. Reid, S. Gould, and A. Van Den Hengel, "Vision-and-language navigation: Interpreting visually-grounded navigation instructions in real environments," in *Proceedings of the IEEE conference on computer vision and pattern recognition*, 2018, pp. 3674–3683.
+C. Carr, P. Wang, and S. Wang, "A human-friendly verbal communication platform for multi-robot systems: Design and principles," *arXiv preprint arXiv:2211.09519*, 2022.
+C. H. Song, J. Wu, C. Washington, B. M. Sadler, W.-L. Chao, and Y. Su, "Llm-planner: Few-shot grounded planning for embodied agents with large language models," in *Proceedings of the IEEE/CVF International Conference on Computer Vision*, 2023, pp. 2998–3009.
+A. Xie, Y. Lee, P. Abbeel, and S. James, "Language-conditioned path planning," *arXiv preprint arXiv:2308.16893*, 2023.
+M. Aghzal, E. Plaku, and Z. Yao, "Can large language models be good path planners? a benchmark and investigation on spatial-temporal reasoning," *arXiv preprint arXiv:2310.03249*, 2023.
+V. Mnih, K. Kavukcuoglu, D. Silver, A. Graves, I. Antonoglou, D. Wierstra, and M. Riedmiller, "Playing atari with deep reinforcement learning," *arXiv preprint arXiv:1312.5602*, 2013.
+C. Zhou, X. Lu, J. Dai, B. Huang, X. Liu, and P. Franti, "Hybrid of ¨ representation learning and reinforcement learning for dynamic and complex robotic motion planning," *arXiv preprint arXiv:2309.03758*, 2023.
+M. Andrychowicz, A. Raichuk, P. Stanczyk, M. Orsini, S. Girgin, ´ R. Marinier, L. Hussenot, M. Geist, O. Pietquin, M. Michalski, *et al.*, "What matters for on-policy deep actor-critic methods? a large-scale study," in *International conference on learning representations*, 2020.

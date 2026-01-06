@@ -1,2 +1,4 @@
 watchdog
 loguru
+
+python-dotenv
