@@ -1,4 +1,9 @@
 watchdog
 loguru
-
 python-dotenv
+habanero
+rapidfuzz
+arxiv
+httpx
+tqdm
+glom

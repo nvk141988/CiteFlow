@@ -16,6 +16,8 @@ import arxiv
 from tqdm.asyncio import tqdm
 from glom import glom, Coalesce
 from dotenv import load_dotenv
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
 
 # --- Utilities ---
 def normalize_text(text):
@@ -286,8 +288,11 @@ class Pipeline:
         self.web = WebVerifier()
         self.sem = asyncio.Semaphore(5)
 
-    async def process_batch(self, ref_collection, prefix="ref"):
+    async def process_batch(self, ref_collection, prefix="ref", output_subfolder=None):
         results_path = self.output_main / "Results"
+        if output_subfolder:
+            results_path = results_path / output_subfolder
+            
         verified_path = results_path / "Verified"
         manual_path = results_path / "Manual_Check"
         
@@ -324,24 +329,65 @@ class Pipeline:
             except Exception as e:
                 logger.error(f"Error processing {index}: {e}")
 
+class ReferenceHandler(FileSystemEventHandler):
+    def __init__(self, pipeline):
+        self.pipeline = pipeline
+
+    def on_created(self, event):
+        if event.is_directory:
+            return
+        if not event.src_path.lower().endswith('.txt'):
+            return
+            
+        logger.info(f"New reference file detected: {event.src_path}")
+        
+        # Slight delay to ensure file write completes
+        time.sleep(1)
+        
+        try:
+             path = Path(event.src_path)
+             # Logic to extract prefix
+             if "_references" in path.name:
+                prefix = path.name.split("_references")[0]
+             else:
+                prefix = path.stem
+             
+             # User requested output folder with same name as new text file
+             output_subfolder = path.stem
+             
+             ref_collection = []
+             with open(path, "r", encoding="utf-8") as f:
+                for line in f:
+                    if line.strip():
+                        ref_collection.append(line.strip())
+             
+             logger.info(f"Auto-processing {len(ref_collection)} references from {path.name}...")
+             # Run sync wrapper for async function
+             asyncio.run(self.pipeline.process_batch(ref_collection, prefix=prefix, output_subfolder=output_subfolder))
+             logger.info(f"Finished processing {path.name}")
+             
+        except Exception as e:
+            logger.error(f"Error processing new file {event.src_path}: {e}")
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Crossref API Reference Verifier")
     parser.add_argument("file", nargs="?", help="Input reference file path")
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose console output")
+    parser.add_argument("--monitor", action="store_true", help="Monitor data/samples folder for new files")
     args = parser.parse_args()
 
     # Configure Logger
     logger.remove()
     logger.add("crossref_runtime.log", rotation="1 MB")
     
-    if args.verbose:
+    if args.verbose or args.monitor:
         logger.add(
             sys.stderr, 
             format="<green>{time:HH:mm:ss}</green> | <cyan>Line:{line}</cyan> | <level>{message}</level>"
         )
 
     logger.info("Starting Processing")
-    if not args.verbose:
+    if not args.verbose and not args.monitor:
         logger.info("Quiet mode enabled (default). Use --verbose to see logs in console.")
     
     # Load environment variables
@@ -353,10 +399,32 @@ if __name__ == "__main__":
     else:
         logger.info(f"Loaded CROSSREF_EMAIL: {EMAIL[:3]}***{EMAIL[-3:]}")
     
-    # Input Logic
     # Resolve to project root for correct Results directory placement
     base_dir = Path(__file__).resolve().parent.parent
-    
+    pipeline = Pipeline(EMAIL, base_dir)
+
+    if args.monitor:
+        monitor_dir = base_dir / "data" / "samples"
+        if not monitor_dir.exists():
+            monitor_dir.mkdir(parents=True, exist_ok=True)
+            
+        logger.info(f"Monitoring directory: {monitor_dir}")
+        logger.info("Press Ctrl+C to stop.")
+        
+        event_handler = ReferenceHandler(pipeline)
+        observer = Observer()
+        observer.schedule(event_handler, str(monitor_dir), recursive=False)
+        observer.start()
+        
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            observer.stop()
+        observer.join()
+        sys.exit(0)
+
+    # Input Logic
     if args.file:
         ref_file = Path(args.file).resolve()
     else:
@@ -380,8 +448,6 @@ if __name__ == "__main__":
             for line in f:
                 if line.strip():
                     ref_collection.append(line.strip())
-        
-        pipeline = Pipeline(EMAIL, base_dir)
         asyncio.run(pipeline.process_batch(ref_collection, prefix))
     else:
         logger.error(f"Reference file not found: {ref_file}")
