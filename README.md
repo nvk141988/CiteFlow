@@ -85,3 +85,7 @@ The system is built with a modular architecture:
 - **Services**: `ArxivService`, `CrossrefService`, `WebVerifier`.
 - **Engine**: `VerificationEngine` encapsulates the decision logic.
 - **Watcher**: `ReferenceHandler` (Watchdog) for file monitoring.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
